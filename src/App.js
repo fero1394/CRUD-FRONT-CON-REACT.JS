@@ -16,16 +16,39 @@ const data = [
 
 class App extends React.Component{
   state={
-    data: data
+    data: data,
+    form:{
+      id:'',
+      personaje:'',
+      anime:''
+    },
+    modalInsertar: false,
+  };
+
+  hadleChange =e=>{
+    this.setState({
+      form:{
+        ...this.state.form,
+        [e.target.name]: e.target.value,
+      }
+    })
+
   }
 
-  
+  mostarModalInsertar=()=>{
+    this.setState({modalInsertar: true});
+  }
+
+  ocultarModalInsertar=()=>{
+    this.setState({modalInsertar: false});
+  }
+
   render(){
   return(
     <>
      <Container>
     <br/> 
-    <Button color="success">Insertar Nuevo Personaje</Button>
+    <Button color="success" onClick={()=>this.mostarModalInsertar()}>Insertar Nuevo Personaje</Button>
     <br/> <br/>
 
     <Table>
@@ -49,7 +72,7 @@ class App extends React.Component{
     </Table>
     </Container> 
     
-    <Modal>
+    <Modal isOpen={this.state.modalInsertar}>
       <ModalHeader>
         <div>
           <h3>Insertar Registro</h3>
@@ -64,18 +87,18 @@ class App extends React.Component{
 
             <FormGroup>
             <label>Personaje:</label>
-              <input className="form-control"  name="personaje" type="text"/>
+              <input className="form-control"  name="personaje" type="text" onChange={this.handleChange}/>
             </FormGroup>
 
             <FormGroup>
             <label>Anime:</label>
-              <input className="form-control" name="anime" type="text"/>
+              <input className="form-control" name="anime" type="text" onChange={this.handleChange}/>
             </FormGroup>
           </ModalBody>
 
           <ModalFooter>
             <Button color="primary">Insertar</Button>
-            <Button color="danger">Cancelar</Button>
+            <Button color="danger" onClick={()=>this.ocultarModalInsertar()}>Cancelar</Button>
           </ModalFooter>
     </Modal>
     </>
